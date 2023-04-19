@@ -8,7 +8,7 @@ export const AudioRecorderContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  height: 100%
+  height: 100%;
 `;
 
 export const MainScreen = styled.div`

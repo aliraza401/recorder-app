@@ -7,7 +7,7 @@ import {
   CloudDownloadOutlined,
 } from "@ant-design/icons";
 
-export const StyledButtonContainer = styled.div`
+export const MediaControllerContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,7 +15,7 @@ export const StyledButtonContainer = styled.div`
   background-color: #f0f0f0;
   gap: 4rem;
   padding-bottom: 1rem;
-  height: 100px;
+  height: 6.25rem;
   border-radius: 1.25rem;
 `;
 

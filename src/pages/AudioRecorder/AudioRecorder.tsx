@@ -1,12 +1,8 @@
 import React, { useRef } from "react";
-import {
-  AudioRecorderContainer,
-  MainScreen,
-  StyledAudioMutedOutlined,
-  StyledAudioOutlined,
-} from "./AudioRecorder.styled";
+import { AudioRecorderContainer, MainScreen } from "./AudioRecorder.styled";
 import { useMediaContext } from "../../context/MediaContext";
-import { ButtonContainer } from "../../components/ButtonContainer/ButtonContainer";
+import { ButtonContainer } from "../../components/ButtonContainer/MediaController";
+import { Canvas } from "../../components/Canvas/Canvas";
 
 export const AudioRecorder: React.FC = () => {
   const { state, dispatch } = useMediaContext();
@@ -16,6 +12,8 @@ export const AudioRecorder: React.FC = () => {
     if (state.recording) {
       if (mediaRecorder.current) {
         mediaRecorder.current.stop();
+        state.stream?.getTracks().forEach((track) => track.stop());
+        dispatch({ type: "SET_STREAM", payload: null });
       }
     } else {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -25,6 +23,7 @@ export const AudioRecorder: React.FC = () => {
         dispatch({ type: "SET_AUDIO_URL", payload: audioURL });
       };
       mediaRecorder.current.start();
+      dispatch({ type: "SET_STREAM", payload: stream });
     }
     dispatch({ type: "SET_RECORDING", payload: !state.recording });
   };
@@ -37,15 +36,10 @@ export const AudioRecorder: React.FC = () => {
       link.click();
     }
   };
-
   return (
     <AudioRecorderContainer>
       <MainScreen>
-        {state.recording ? (
-          <StyledAudioOutlined />
-        ) : (
-          <StyledAudioMutedOutlined />
-        )}
+        <Canvas stream={state.stream} />
       </MainScreen>
       <ButtonContainer
         onStartStopRecording={handleStartStopRecording}

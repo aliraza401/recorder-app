@@ -1,31 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { HomeProps } from "./Home.interface";
+import { AudioOutlined, VideoCameraAddOutlined } from "@ant-design/icons";
+import { Image } from "antd";
 import {
   HomeContainer,
   Heading,
   ButtonContainer,
   HomeButton,
 } from "./Home.styled";
-import { PATHS } from "../../utils/constants";
-import {
-  AudioOutlined,
-  CameraFilled,
-  VideoCameraAddOutlined,
-} from "@ant-design/icons";
-import { Image } from "antd";
+import { HomeProps } from "./Home.interface";
+import { PATHS, logoUrl } from "../../utils/constants";
 
 export const Home: React.FC<HomeProps> = () => {
   return (
     <HomeContainer>
       <Heading>Audio/Video Recorder</Heading>
-      <Image
-        className="icon-logo"
-        preview={false}
-        src={
-          "https://play-lh.googleusercontent.com/EiB8nFwIAQxl8JrfoaNVIXSM7FZZ108NmJ_D0Eqyb1utmDLe3FgKU8p7OEwAhnDWzl8=w480-h960-rw"
-        }
-      />
+      <Image className="icon-logo" preview={false} src={logoUrl} />
       <ButtonContainer>
         <Link to={PATHS.AUDIO_RECORDER}>
           <HomeButton>

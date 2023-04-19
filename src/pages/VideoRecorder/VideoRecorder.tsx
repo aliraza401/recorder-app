@@ -6,7 +6,7 @@ import {
 } from "./VideoRecorder.styled";
 
 import { useMediaContext } from "../../context/MediaContext";
-import { ButtonContainer } from "../../components/ButtonContainer/ButtonContainer";
+import { ButtonContainer } from "../../components/ButtonContainer/MediaController";
 
 export const VideoRecorder: React.FC = () => {
   const { state, dispatch } = useMediaContext();
@@ -19,6 +19,7 @@ export const VideoRecorder: React.FC = () => {
         mediaRecorder.current.stop();
         const stream = mediaRecorder.current.stream;
         stream.getTracks().forEach((track) => track.stop());
+        dispatch({ type: "SET_STREAM", payload: null });
       }
     } else {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -31,6 +32,7 @@ export const VideoRecorder: React.FC = () => {
         dispatch({ type: "SET_VIDEO_URL", payload: videoURL });
       };
       mediaRecorder.current.start();
+      dispatch({ type: "SET_STREAM", payload: stream });
     }
     dispatch({ type: "SET_RECORDING", payload: !state.recording });
   };

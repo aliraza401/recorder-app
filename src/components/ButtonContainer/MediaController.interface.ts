@@ -1,4 +1,4 @@
-export interface ButtonContainerProps {
+export interface MediaControllerProps {
   onStartStopRecording: () => void;
   onDownload: () => void;
   recording: boolean;

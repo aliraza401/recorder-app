@@ -1,4 +1,16 @@
 import { green, gold, red } from "@ant-design/colors";
+import { DefaultTheme } from "styled-components";
+
+export interface Theme {
+  primaryColor: string;
+  secondaryColor: string;
+  lightColor: string;
+  textColor: string;
+  linkColor: string;
+  successColor: string;
+  warningColor: string;
+  errorColor: string;
+}
 
 const primaryColor = "#3A8DFF";
 const secondaryColor = "#7fb2ff";
@@ -9,7 +21,7 @@ const successColor = green[5];
 const warningColor = gold[5];
 const errorColor = red[5];
 
-const antdTheme = {
+const antdTheme: Theme = {
   primaryColor: primaryColor,
   secondaryColor: secondaryColor,
   lightColor: lightColor,

@@ -1,25 +1,27 @@
 import React, { createContext, useReducer, useContext } from "react";
 
-export interface MediaState {
+interface MediaProviderProps {
+  children: React.ReactNode;
+}
+interface MediaState {
   recording: boolean;
   audioURL: string | null;
   videoURL: string | null;
-}
-
-interface MediaProviderProps {
-  children: React.ReactNode;
+  stream: MediaStream | null;
 }
 
 const initialState: MediaState = {
   recording: false,
   audioURL: null,
   videoURL: null,
+  stream: null,
 };
 
 export type MediaAction =
   | { type: "SET_RECORDING"; payload: boolean }
   | { type: "SET_AUDIO_URL"; payload: string | null }
-  | { type: "SET_VIDEO_URL"; payload: string | null };
+  | { type: "SET_VIDEO_URL"; payload: string | null }
+  | { type: "SET_STREAM"; payload: MediaStream | null };
 
 const MediaContext = createContext<{
   state: MediaState;
@@ -37,6 +39,11 @@ const mediaReducer = (state: MediaState, action: MediaAction): MediaState => {
       return { ...state, audioURL: action.payload };
     case "SET_VIDEO_URL":
       return { ...state, videoURL: action.payload };
+    case "SET_STREAM":
+      return {
+        ...state,
+        stream: action.payload,
+      };
     default:
       return state;
   }

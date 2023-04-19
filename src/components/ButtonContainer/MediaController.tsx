@@ -1,21 +1,21 @@
 import React from "react";
-import { ButtonContainerProps } from "./ButtonContainer.interface";
+import { MediaControllerProps } from "./MediaController.interface";
 import {
   StyledButton,
   StyledCloudDownloadOutlined,
   StyledPauseCircleOutlined,
   StyledPlayCircleOutlined,
-  StyledButtonContainer,
-} from "./ButtonContainer.styled";
+  MediaControllerContainer,
+} from "./MediaController.styled";
 
-export const ButtonContainer: React.FC<ButtonContainerProps> = ({
+export const ButtonContainer: React.FC<MediaControllerProps> = ({
   onStartStopRecording,
   onDownload,
   recording,
   downloadDisabled,
 }) => {
   return (
-    <StyledButtonContainer>
+    <MediaControllerContainer>
       <StyledButton
         onClick={onStartStopRecording}
         icon={
@@ -31,6 +31,6 @@ export const ButtonContainer: React.FC<ButtonContainerProps> = ({
         disabled={downloadDisabled}
         icon={<StyledCloudDownloadOutlined />}
       />
-    </StyledButtonContainer>
+    </MediaControllerContainer>
   );
 };
