@@ -15,7 +15,7 @@ export interface Theme {
 const primaryColor = "#3A8DFF";
 const secondaryColor = "#7fb2ff";
 const lightColor = "#5ca5ff";
-const textColor = "#0059e3";
+const textColor = "#2a2727";
 const linkColor = primaryColor;
 const successColor = green[5];
 const warningColor = gold[5];

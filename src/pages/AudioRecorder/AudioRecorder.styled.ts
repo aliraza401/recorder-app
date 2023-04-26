@@ -9,16 +9,14 @@ export const AudioRecorderContainer = styled.div`
   justify-content: space-between;
   width: 100%;
   height: 100%;
+  position: relative;
 `;
 
 export const MainScreen = styled.div`
-  background-color: ${({ theme }) => theme.secondaryColor};
+  background-color: black;
+  /* background-color: ${({ theme }) => theme.secondaryColor}; */
   width: 100%;
-  height: calc(100vh - 150px);
-  border-radius: 1.25rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  height: 65vh;
 `;
 
 export const StyledAudioOutlined = styled(AudioOutlined)`

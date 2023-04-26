@@ -3,10 +3,15 @@ import { AudioRecorderContainer, MainScreen } from "./AudioRecorder.styled";
 import { useMediaContext } from "../../context/MediaContext";
 import { ButtonContainer } from "../../components/ButtonContainer/MediaController";
 import { Canvas } from "../../components/Canvas/Canvas";
+import { StyledCloseBtn } from "../VideoRecorder/VideoRecorder.styled";
+import { useNavigate } from "react-router-dom";
+import { PATHS } from "../../utils/constants";
+import { downloadAudio } from "../../utils/downloader";
 
 export const AudioRecorder: React.FC = () => {
   const { state, dispatch } = useMediaContext();
   const mediaRecorder = useRef<MediaRecorder | null>(null);
+  const navigate = useNavigate();
 
   const handleStartStopRecording = async () => {
     if (state.recording) {
@@ -28,18 +33,15 @@ export const AudioRecorder: React.FC = () => {
     dispatch({ type: "SET_RECORDING", payload: !state.recording });
   };
 
-  const handleDownloadAudio = () => {
-    if (state.audioURL) {
-      const link = document.createElement("a");
-      link.href = state.audioURL;
-      link.download = "audio-recording.wav";
-      link.click();
-    }
-  };
+  const handleDownloadAudio = () => downloadAudio(state.audioURL);
+
+  const navigateHome = () => navigate(PATHS.HOME);
+
   return (
     <AudioRecorderContainer>
       <MainScreen>
         <Canvas stream={state.stream} />
+        <StyledCloseBtn onClick={navigateHome} />
       </MainScreen>
       <ButtonContainer
         onStartStopRecording={handleStartStopRecording}

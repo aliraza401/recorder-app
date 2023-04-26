@@ -1,7 +1,22 @@
+import DOWNLOAD_IMG from "./../assets/downloads.png";
+import PLAY_IMG from "./../assets/start.png";
+import PAUSE_IMG from "./../assets/pause.png";
+
+export const LOGO_URL = `https://img.icons8.com/external-soft-fill-juicy-fish/60/null/external-audio-film-making-soft-fill-soft-fill-juicy-fish.png`;
+
 export enum PATHS {
   HOME = "/",
   AUDIO_RECORDER = "/audio",
   VIDEO_RECORDER = "/video",
 }
 
-export const logoUrl = `https://play-lh.googleusercontent.com/EiB8nFwIAQxl8JrfoaNVIXSM7FZZ108NmJ_D0Eqyb1utmDLe3FgKU8p7OEwAhnDWzl8=w480-h960-rw`;
+export enum FILE_NAMES {
+  AUDIO = "audio-recording.wav",
+  VIDEO = "video-recording.wav",
+}
+
+export const CONTROL_ICONS = {
+  DOWNLOAD: DOWNLOAD_IMG,
+  PLAY: PLAY_IMG,
+  PAUSE: PAUSE_IMG,
+};

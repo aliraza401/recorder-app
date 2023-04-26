@@ -10,10 +10,18 @@ export const Canvas: React.FC<CanvasProps> = ({ stream }) => {
     const canvas = canvasRef.current;
     const ctx: any = canvas.getContext("2d");
 
+    const setCanvasSize = () => {
+      canvas.width = canvas.clientWidth;
+      canvas.height = canvas.clientHeight;
+    };
+
+    setCanvasSize();
+    window.addEventListener("resize", setCanvasSize);
+
     const audioContext = new AudioContext();
     const source = audioContext.createMediaStreamSource(stream);
     const analyser = audioContext.createAnalyser();
-    const primaryColor = "#3A8DFF";
+    const primaryColor = "#999999";
 
     source.connect(analyser);
 
@@ -25,15 +33,20 @@ export const Canvas: React.FC<CanvasProps> = ({ stream }) => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       ctx.beginPath();
-      ctx.arc(canvas.width / 2, canvas.height / 2, 50, 0, 2 * Math.PI); //make circle
-      ctx.fillStyle = "#0059e3";
+      ctx.arc(canvas.width / 2, canvas.height / 2, 50, 0, 2 * Math.PI);
+      ctx.fillStyle = "#333333";
       ctx.fill();
 
+      const totalBars = 250;
       const bars = dataArray.length;
+      const barsToSkip = Math.floor(bars / totalBars);
       const radius = 50;
 
-      for (let i = 0; i < bars; i++) {
-        const barHeight = dataArray[i] / 3;
+      const avgBarHeight =
+        dataArray.reduce((sum, height) => sum + height, 0) / bars;
+
+      for (let i = 0; i < bars; i += barsToSkip) {
+        const barHeight = avgBarHeight * 0.75;
         const angle = (i / bars) * 2 * Math.PI;
 
         const startX = canvas.width / 2 + radius * Math.cos(angle);
@@ -45,7 +58,7 @@ export const Canvas: React.FC<CanvasProps> = ({ stream }) => {
         ctx.beginPath();
         ctx.moveTo(startX, startY);
         ctx.lineTo(endX, endY);
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 1.5;
         ctx.strokeStyle = primaryColor;
         ctx.stroke();
       }
@@ -54,7 +67,15 @@ export const Canvas: React.FC<CanvasProps> = ({ stream }) => {
     };
 
     draw();
+
+    return () => {
+      window.removeEventListener("resize", setCanvasSize);
+    };
   }, [stream, canvasRef]);
 
-  return <canvas ref={canvasRef} width="300" height="300" />;
+  return (
+    <div className="canvas-container">
+      <canvas ref={canvasRef} />
+    </div>
+  );
 };

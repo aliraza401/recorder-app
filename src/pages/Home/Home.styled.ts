@@ -9,14 +9,14 @@ export const HomeContainer = styled.div`
   height: 98vh;
   width: 100%;
   .icon-logo {
-    width: 10rem;
-    border-radius: 3rem;
+    width: 5rem;
+    /* border-radius: 3rem; */
     color: ${({ theme }) => theme.lightColor};
   }
 `;
 
 export const Heading = styled.h1`
-  font-size: 2rem;
+  font-size: 1.5rem;
   text-align: center;
   margin-bottom: 1rem;
   color: ${({ theme }) => theme.textColor};
@@ -27,11 +27,11 @@ export const ButtonContainer = styled.div`
   justify-content: space-around;
   width: 100%;
   svg {
-    font-size: 2rem;
-    color: ${({ theme }) => theme.primaryColor};
-    background-color: ${({ theme }) => theme.secondaryColor};
+    font-size: 1.2rem;
+    color: white;
+    background-color: ${({ theme }) => theme.textColor};
     padding: 1rem;
-    border-radius: 1.4rem;
+    border-radius: 0.5rem;
   }
 `;
 

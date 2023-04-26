@@ -9,12 +9,13 @@ import { VideoRecorder } from "./pages/VideoRecorder/VideoRecorder";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { PATHS } from "./utils/constants";
 import { MediaProvider } from "./context/MediaContext";
-import { AppContainer } from "./AppContainer.styled";
+import GlobalStyle from "./theme/globalStyle";
 
 function App() {
   return (
-    <AppContainer>
+    <>
       <ThemeProvider theme={{ ...theme }}>
+        <GlobalStyle />
         <MediaProvider>
           <BrowserRouter>
             <Routes>
@@ -25,7 +26,7 @@ function App() {
           </BrowserRouter>
         </MediaProvider>
       </ThemeProvider>
-    </AppContainer>
+    </>
   );
 }
 

@@ -1,12 +1,10 @@
 import React from "react";
 import { MediaControllerProps } from "./MediaController.interface";
 import {
-  StyledButton,
-  StyledCloudDownloadOutlined,
-  StyledPauseCircleOutlined,
-  StyledPlayCircleOutlined,
   MediaControllerContainer,
 } from "./MediaController.styled";
+import { Image } from "antd";
+import { CONTROL_ICONS } from "../../utils/constants";
 
 export const ButtonContainer: React.FC<MediaControllerProps> = ({
   onStartStopRecording,
@@ -16,20 +14,24 @@ export const ButtonContainer: React.FC<MediaControllerProps> = ({
 }) => {
   return (
     <MediaControllerContainer>
-      <StyledButton
-        onClick={onStartStopRecording}
-        icon={
-          recording ? (
-            <StyledPauseCircleOutlined />
-          ) : (
-            <StyledPlayCircleOutlined />
-          )
-        }
-      />
-      <StyledButton
+      {recording ? (
+        <Image
+          src={CONTROL_ICONS.PAUSE}
+          preview={false}
+          onClick={onStartStopRecording}
+        />
+      ) : (
+        <Image
+          src={CONTROL_ICONS.PLAY}
+          preview={false}
+          onClick={onStartStopRecording}
+        />
+      )}
+      <Image
+        src={CONTROL_ICONS.DOWNLOAD}
+        preview={false}
         onClick={onDownload}
-        disabled={downloadDisabled}
-        icon={<StyledCloudDownloadOutlined />}
+        className={`${downloadDisabled ? "pointer-disabled" : ""}`}
       />
     </MediaControllerContainer>
   );

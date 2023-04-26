@@ -3,15 +3,21 @@ import {
   VideoRecorderContainer,
   Video,
   MainScreen,
+  StyledCloseBtn,
 } from "./VideoRecorder.styled";
 
 import { useMediaContext } from "../../context/MediaContext";
 import { ButtonContainer } from "../../components/ButtonContainer/MediaController";
+import { useNavigate } from "react-router-dom";
+import { PATHS } from "../../utils/constants";
+import { downloadVideo } from "../../utils/downloader";
 
 export const VideoRecorder: React.FC = () => {
   const { state, dispatch } = useMediaContext();
   const mediaRecorder = useRef<MediaRecorder | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  const navigate = useNavigate();
 
   const handleStartStopRecording = async () => {
     if (state.recording) {
@@ -37,19 +43,15 @@ export const VideoRecorder: React.FC = () => {
     dispatch({ type: "SET_RECORDING", payload: !state.recording });
   };
 
-  const handleDownloadVideo = () => {
-    if (state.videoURL) {
-      const link = document.createElement("a");
-      link.href = state.videoURL;
-      link.download = "video-recording.mp4";
-      link.click();
-    }
-  };
+  const handleDownloadVideo = () => downloadVideo(state.videoURL);
+
+  const navigateHome = () => navigate(PATHS.HOME);
 
   return (
     <VideoRecorderContainer>
       <MainScreen>
         <Video ref={videoRef} autoPlay muted />
+        <StyledCloseBtn onClick={navigateHome} />
       </MainScreen>
       <ButtonContainer
         onStartStopRecording={handleStartStopRecording}
