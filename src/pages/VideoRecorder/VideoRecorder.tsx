@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import {
   VideoRecorderContainer,
   Video,
@@ -46,6 +46,16 @@ export const VideoRecorder: React.FC = () => {
   const handleDownloadVideo = () => downloadVideo(state.videoURL);
 
   const navigateHome = () => navigate(PATHS.HOME);
+
+  useEffect(() => {
+    return () => {
+      if (state.stream) {
+        state.stream.getTracks().forEach((track) => track.stop());
+        dispatch({ type: "SET_STREAM", payload: null });
+        dispatch({ type: "SET_RECORDING", payload: false });
+      }
+    };
+  }, [state.stream, dispatch]);
 
   return (
     <VideoRecorderContainer>

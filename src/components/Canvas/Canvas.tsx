@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { CanvasProps } from "./Canvas.interface";
+import { CANVAS_PROPERTIES } from "../../utils/constants";
 
 export const Canvas: React.FC<CanvasProps> = ({ stream }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -21,7 +22,6 @@ export const Canvas: React.FC<CanvasProps> = ({ stream }) => {
     const audioContext = new AudioContext();
     const source = audioContext.createMediaStreamSource(stream);
     const analyser = audioContext.createAnalyser();
-    const primaryColor = "#999999";
 
     source.connect(analyser);
 
@@ -34,19 +34,19 @@ export const Canvas: React.FC<CanvasProps> = ({ stream }) => {
 
       ctx.beginPath();
       ctx.arc(canvas.width / 2, canvas.height / 2, 50, 0, 2 * Math.PI);
-      ctx.fillStyle = "#333333";
+      ctx.fillStyle = CANVAS_PROPERTIES.SECONDARY_COLOR;
       ctx.fill();
 
-      const totalBars = 250;
+      const totalBars = CANVAS_PROPERTIES.TOTAL_BARS;
       const bars = dataArray.length;
       const barsToSkip = Math.floor(bars / totalBars);
-      const radius = 50;
+      const radius = CANVAS_PROPERTIES.RADIUS;
 
       const avgBarHeight =
         dataArray.reduce((sum, height) => sum + height, 0) / bars;
 
       for (let i = 0; i < bars; i += barsToSkip) {
-        const barHeight = avgBarHeight * 0.75;
+        const barHeight = avgBarHeight * 0.85;
         const angle = (i / bars) * 2 * Math.PI;
 
         const startX = canvas.width / 2 + radius * Math.cos(angle);
@@ -58,8 +58,8 @@ export const Canvas: React.FC<CanvasProps> = ({ stream }) => {
         ctx.beginPath();
         ctx.moveTo(startX, startY);
         ctx.lineTo(endX, endY);
-        ctx.lineWidth = 1.5;
-        ctx.strokeStyle = primaryColor;
+        ctx.lineWidth = CANVAS_PROPERTIES.LINE_WIDTH;
+        ctx.strokeStyle = CANVAS_PROPERTIES.PRIMARY_COLOR;
         ctx.stroke();
       }
 

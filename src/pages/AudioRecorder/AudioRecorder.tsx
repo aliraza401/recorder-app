@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { AudioRecorderContainer, MainScreen } from "./AudioRecorder.styled";
 import { useMediaContext } from "../../context/MediaContext";
 import { ButtonContainer } from "../../components/ButtonContainer/MediaController";
@@ -36,6 +36,16 @@ export const AudioRecorder: React.FC = () => {
   const handleDownloadAudio = () => downloadAudio(state.audioURL);
 
   const navigateHome = () => navigate(PATHS.HOME);
+
+  useEffect(() => {
+    return () => {
+      if (state.stream) {
+        state.stream.getTracks().forEach((track) => track.stop());
+        dispatch({ type: "SET_STREAM", payload: null });
+        dispatch({ type: "SET_RECORDING", payload: false });
+      }
+    };
+  }, [state.stream, dispatch]);
 
   return (
     <AudioRecorderContainer>
