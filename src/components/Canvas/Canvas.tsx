@@ -1,9 +1,16 @@
 import React, { useRef, useEffect } from "react";
 import { CanvasProps } from "./Canvas.interface";
 import { CANVAS_PROPERTIES } from "../../utils/constants";
+import CanBgImg from "./../../assets/canvasBg.jpeg";
+import { CircleImg } from "./Canvas.styled";
 
-export const Canvas: React.FC<CanvasProps> = ({ stream }) => {
+export const Canvas: React.FC<CanvasProps> = ({ stream, isPaused }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const isPausedRef = useRef(isPaused);
+
+  useEffect(() => {
+    isPausedRef.current = isPaused;
+  }, [isPaused]);
 
   useEffect(() => {
     if (!stream || !canvasRef.current) return;
@@ -29,7 +36,12 @@ export const Canvas: React.FC<CanvasProps> = ({ stream }) => {
 
     const draw = () => {
       analyser.getByteFrequencyData(dataArray);
+      if (isPausedRef.current) {
+        requestAnimationFrame(draw);
+        return;
+      }
 
+      ctx.fillStyle = "rgba(0, 0, 0, 0)";
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       ctx.beginPath();
@@ -71,11 +83,12 @@ export const Canvas: React.FC<CanvasProps> = ({ stream }) => {
     return () => {
       window.removeEventListener("resize", setCanvasSize);
     };
-  }, [stream, canvasRef]);
+  }, [stream, canvasRef, isPaused]);
 
   return (
     <div className="canvas-container">
       <canvas ref={canvasRef} />
+      <CircleImg src={CanBgImg} alt="Center Image" />
     </div>
   );
 };

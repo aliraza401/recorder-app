@@ -1,41 +1,52 @@
 import styled from "styled-components";
-import { Button, theme } from "antd";
+import { Button } from "antd";
 
 export const HomeContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  height: 98vh;
+  background: linear-gradient(to bottom right, purple, orange);
+  height: 100vh;
   width: 100%;
-  .icon-logo {
-    width: 5rem;
-    /* border-radius: 3rem; */
-    color: ${({ theme }) => theme.lightColor};
-  }
+  display: grid;
+  place-items: center;
 `;
 
 export const Heading = styled.h1`
   font-size: 1.5rem;
   text-align: center;
-  margin-bottom: 1rem;
-  color: ${({ theme }) => theme.textColor};
+  margin-bottom: 0.5rem; // Reduced margin-bottom
+  color: white;
 `;
 
 export const ButtonContainer = styled.div`
   display: flex;
-  justify-content: space-around;
-  width: 100%;
-  svg {
-    font-size: 1.2rem;
-    color: white;
-    background-color: ${({ theme }) => theme.textColor};
-    padding: 1rem;
-    border-radius: 0.5rem;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+`;
+
+export const HomeButton = styled.button`
+  background-color: rgba(0, 0, 0, 0.15); // Recommended button background color
+  color: white; // Updated text color
+  border-width: 0;
+  width: 80%;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  border-radius: 0.3rem;
+  padding: 20px;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.25); // Updated hover background color
   }
 `;
 
-export const HomeButton = styled(Button)`
-  background-color: transparent;
-  border-width: 0;
+export const ButtonContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .anticon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
 `;

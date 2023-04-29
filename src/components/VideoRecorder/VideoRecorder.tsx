@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import {
   VideoRecorderContainer,
   Video,
@@ -17,12 +17,17 @@ export const VideoRecorder: React.FC = () => {
   const mediaRecorder = useRef<MediaRecorder | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
-  const [isPaused, setIsPaused] = useState(false);
-
   const navigate = useNavigate();
 
-  const handleStartRecording = async () => {
-    if (!state.recording) {
+  const handleStartStopRecording = async () => {
+    if (state.recording) {
+      if (mediaRecorder.current) {
+        mediaRecorder.current.stop();
+        const stream = mediaRecorder.current.stream;
+        stream.getTracks().forEach((track) => track.stop());
+        dispatch({ type: "SET_STREAM", payload: null });
+      }
+    } else {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
@@ -34,38 +39,8 @@ export const VideoRecorder: React.FC = () => {
       };
       mediaRecorder.current.start();
       dispatch({ type: "SET_STREAM", payload: stream });
-      dispatch({ type: "SET_RECORDING", payload: !state.recording });
     }
-  };
-
-  const handlePauseRecording = () => {
-    if (mediaRecorder.current && state.recording) {
-      if (isPaused) {
-        mediaRecorder.current.resume();
-        if (videoRef.current) {
-          videoRef.current.play();
-        }
-      } else {
-        mediaRecorder.current.pause();
-        if (videoRef.current) {
-          videoRef.current.pause();
-        }
-      }
-      setIsPaused(!isPaused);
-    }
-  };
-
-  const handleStopRecording = () => {
-    if (mediaRecorder.current && state.recording) {
-      mediaRecorder.current.stop();
-      const stream = mediaRecorder.current.stream;
-      stream.getTracks().forEach((track) => track.stop());
-      dispatch({ type: "SET_STREAM", payload: null });
-      dispatch({ type: "SET_RECORDING", payload: false });
-      if (videoRef.current) {
-        videoRef.current.load();
-      }
-    }
+    dispatch({ type: "SET_RECORDING", payload: !state.recording });
   };
 
   const handleDownloadVideo = () => downloadVideo(state.videoURL);
@@ -89,13 +64,10 @@ export const VideoRecorder: React.FC = () => {
         <StyledCloseBtn onClick={navigateHome} />
       </MainScreen>
       <ButtonContainer
-        onStartRecording={handleStartRecording}
-        onPauseRecording={handlePauseRecording}
-        onStopRecording={handleStopRecording}
+        onStartStopRecording={handleStartStopRecording}
         onDownload={handleDownloadVideo}
         recording={state.recording}
         downloadDisabled={!state.videoURL}
-        isPaused={isPaused}
       />
     </VideoRecorderContainer>
   );

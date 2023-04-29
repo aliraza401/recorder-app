@@ -1,38 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
 import { MediaControllerProps } from "./MediaController.interface";
 import {
   MediaControllerContainer,
+  ControlIcon,
 } from "./MediaController.styled";
-import { Image } from "antd";
-import { CONTROL_ICONS } from "../../utils/constants";
+import {
+  PauseCircleFilled,
+  StopOutlined,
+  DownloadOutlined,
+  PlaySquareFilled,
+  PlayCircleFilled,
+} from "@ant-design/icons";
 
 export const ButtonContainer: React.FC<MediaControllerProps> = ({
-  onStartStopRecording,
+  onStartRecording,
+  onPauseRecording,
+  onStopRecording,
   onDownload,
   recording,
   downloadDisabled,
+  isPaused,
 }) => {
+  const handleStartOrResumeRecording = () => {
+    if (isPaused) {
+      onPauseRecording();
+    } else {
+      onStartRecording();
+    }
+  };
+
   return (
     <MediaControllerContainer>
-      {recording ? (
-        <Image
-          src={CONTROL_ICONS.PAUSE}
-          preview={false}
-          onClick={onStartStopRecording}
-        />
+      {!recording || isPaused ? (
+        <ControlIcon>
+          <PlayCircleFilled onClick={handleStartOrResumeRecording} />
+        </ControlIcon>
       ) : (
-        <Image
-          src={CONTROL_ICONS.PLAY}
-          preview={false}
-          onClick={onStartStopRecording}
-        />
+        <ControlIcon>
+          <PauseCircleFilled onClick={onPauseRecording} />
+        </ControlIcon>
       )}
-      <Image
-        src={CONTROL_ICONS.DOWNLOAD}
-        preview={false}
-        onClick={onDownload}
-        className={`${downloadDisabled ? "pointer-disabled" : ""}`}
-      />
+      {recording && (
+        <ControlIcon>
+          <StopOutlined onClick={onStopRecording} />
+        </ControlIcon>
+      )}
+      {!recording && (
+        <ControlIcon>
+          <DownloadOutlined
+            onClick={onDownload}
+            className={`${downloadDisabled ? "pointer-disabled" : ""}`}
+          />
+        </ControlIcon>
+      )}
     </MediaControllerContainer>
   );
 };

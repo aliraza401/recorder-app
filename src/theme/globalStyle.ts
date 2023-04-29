@@ -21,6 +21,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   .canvas-container {
+    /* background: linear-gradient(to bottom right, purple, orange); */
     position: relative;
     width: 100%;
     height: 100%;
@@ -31,6 +32,13 @@ const GlobalStyle = createGlobalStyle`
     top: 0;
     left: 0;
     width: 100%;
+    height: 100%;
+  }
+
+  .slick-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 100%;
   }
 `;

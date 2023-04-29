@@ -1,32 +1,51 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { AudioOutlined, VideoCameraAddOutlined } from "@ant-design/icons";
-import { Image } from "antd";
+import { AudioOutlined, FundProjectionScreenOutlined, VideoCameraAddOutlined } from "@ant-design/icons";
+import { Row, Col } from "antd";
 import {
   HomeContainer,
   Heading,
   ButtonContainer,
   HomeButton,
+  ButtonContent,
 } from "./Home.styled";
 import { HomeProps } from "./Home.interface";
-import { LOGO_URL, PATHS } from "../../utils/constants";
+import { PATHS } from "../../utils/constants";
 
 export const Home: React.FC<HomeProps> = () => {
   return (
     <HomeContainer>
       <Heading>Audio/Video Recorder</Heading>
-      <Image className="icon-logo" preview={false} src={LOGO_URL} />
       <ButtonContainer>
-        <Link to={PATHS.AUDIO_RECORDER}>
-          <HomeButton>
-            <AudioOutlined />
-          </HomeButton>
-        </Link>
-        <Link to={PATHS.VIDEO_RECORDER}>
-          <HomeButton>
-            <VideoCameraAddOutlined />
-          </HomeButton>
-        </Link>
+        <Row gutter={[16, 16]}>
+          <Col span={24}>
+            <Link to={PATHS.AUDIO_RECORDER}>
+              <HomeButton>
+                <ButtonContent>
+                  <AudioOutlined /> Audio Recorder
+                </ButtonContent>
+              </HomeButton>
+            </Link>
+          </Col>
+          <Col span={24}>
+            <Link to={PATHS.VIDEO_RECORDER}>
+              <HomeButton>
+                <ButtonContent>
+                  <VideoCameraAddOutlined /> Video Recorder
+                </ButtonContent>
+              </HomeButton>
+            </Link>
+          </Col>
+          <Col span={24}>
+            <Link to={PATHS.SCREEN_RECORDER}>
+              <HomeButton>
+                <ButtonContent>
+                  <FundProjectionScreenOutlined /> Screen Recorder
+                </ButtonContent>
+              </HomeButton>
+            </Link>
+          </Col>
+        </Row>
       </ButtonContainer>
     </HomeContainer>
   );

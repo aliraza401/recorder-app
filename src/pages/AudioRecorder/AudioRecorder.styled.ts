@@ -10,6 +10,16 @@ export const AudioRecorderContainer = styled.div`
   width: 100%;
   height: 100%;
   position: relative;
+  background: linear-gradient(to bottom right, purple, orange);
+`;
+
+export const GradientBackground = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom right, purple, orange);
 `;
 
 export const MainScreen = styled.div`

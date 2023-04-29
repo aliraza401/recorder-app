@@ -1,25 +1,24 @@
-import { CloseOutlined } from "@ant-design/icons";
 import styled from "styled-components";
+import { Button } from "antd";
+import { CloseOutlined } from "@ant-design/icons";
 
-export const VideoRecorderContainer = styled.div`
+export const ScreenRecorderContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
   height: 100%;
   background: linear-gradient(to bottom right, purple, orange);
 `;
 
 export const MainScreen = styled.div`
-  background-color: transparent;
-  width: 100%;
-  height: 65vh;
-  /* border-radius: 20px; */
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
 `;
 
 export const StyledCloseBtn = styled(CloseOutlined)`
@@ -32,7 +31,7 @@ export const StyledCloseBtn = styled(CloseOutlined)`
 
 export const Video = styled.video`
   width: 100%;
-  max-width: 480px;
-  height: auto;
-  background-color: black;
+  height: 65vh;
+  object-fit: cover;
+  background-color: transparent;
 `;

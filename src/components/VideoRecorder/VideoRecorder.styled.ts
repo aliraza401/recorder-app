@@ -8,11 +8,10 @@ export const VideoRecorderContainer = styled.div`
   justify-content: space-between;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom right, purple, orange);
 `;
 
 export const MainScreen = styled.div`
-  background-color: transparent;
+  background-color: black;
   width: 100%;
   height: 65vh;
   /* border-radius: 20px; */
