@@ -36,7 +36,7 @@ export const Home: React.FC<HomeProps> = () => {
               </HomeButton>
             </Link>
           </Col>
-          <Col span={24}>
+          {/* <Col span={24}>
             <Link to={PATHS.SCREEN_RECORDER}>
               <HomeButton>
                 <ButtonContent>
@@ -44,7 +44,7 @@ export const Home: React.FC<HomeProps> = () => {
                 </ButtonContent>
               </HomeButton>
             </Link>
-          </Col>
+          </Col> */}
         </Row>
       </ButtonContainer>
     </HomeContainer>
