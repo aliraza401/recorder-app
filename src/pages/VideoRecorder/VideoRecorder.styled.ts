@@ -1,4 +1,4 @@
-import { CloseOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined, CloseOutlined, LeftOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 
 export const VideoRecorderContainer = styled.div`
@@ -22,10 +22,10 @@ export const MainScreen = styled.div`
   position: relative;
 `;
 
-export const StyledCloseBtn = styled(CloseOutlined)`
+export const StyledCloseBtn = styled(ArrowLeftOutlined)`
   position: absolute;
   top: 1rem;
-  right: 1rem;
+  left: 1rem;
   color: #fff;
   font-size: 1.2rem;
 `;

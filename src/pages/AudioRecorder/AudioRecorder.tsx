@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import {
   AudioRecorderContainer,
   GradientBackground,
@@ -13,14 +13,17 @@ import { PATHS } from "../../utils/constants";
 import { downloadAudio } from "../../utils/downloader";
 
 export const AudioRecorder: React.FC = () => {
-  const { state, dispatch } = useMediaContext();
+  const {
+    state: { recording, audioURL, stream },
+    dispatch,
+  } = useMediaContext();
   const [isPaused, setIsPaused] = useState(false);
 
   const mediaRecorder = useRef<MediaRecorder | null>(null);
   const navigate = useNavigate();
 
   const handleStartRecording = async () => {
-    if (!state.recording) {
+    if (!recording) {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       mediaRecorder.current = new MediaRecorder(stream);
       mediaRecorder.current.ondataavailable = (e) => {
@@ -34,7 +37,7 @@ export const AudioRecorder: React.FC = () => {
   };
 
   const handlePauseResumeRecording = () => {
-    if (mediaRecorder.current && state.recording) {
+    if (mediaRecorder.current && recording) {
       if (!isPaused) {
         mediaRecorder.current.pause();
         setIsPaused(true);
@@ -46,33 +49,36 @@ export const AudioRecorder: React.FC = () => {
   };
 
   const handleStopRecording = () => {
-    if (mediaRecorder.current && state.recording) {
+    if (mediaRecorder.current && recording) {
       mediaRecorder.current.stop();
-      state.stream?.getTracks().forEach((track) => track.stop());
+      stream?.getTracks().forEach((track) => track.stop());
       dispatch({ type: "SET_STREAM", payload: null });
       dispatch({ type: "SET_RECORDING", payload: false });
     }
   };
 
-  const handleDownloadAudio = () => downloadAudio(state.audioURL);
-
-  const navigateHome = () => navigate(PATHS.HOME);
-
   useEffect(() => {
     return () => {
-      if (state.stream) {
-        state.stream.getTracks().forEach((track) => track.stop());
+      if (stream) {
+        stream.getTracks().forEach((track) => track.stop());
         dispatch({ type: "SET_STREAM", payload: null });
         dispatch({ type: "SET_RECORDING", payload: false });
       }
     };
-  }, [state.stream, dispatch]);
+  }, []);
+
+  const handleDownloadAudio = useCallback(
+    () => downloadAudio(audioURL),
+    [audioURL]
+  );
+
+  const navigateHome = () => navigate(PATHS.HOME);
 
   return (
     <AudioRecorderContainer>
       <GradientBackground />
       <MainScreen>
-        <Canvas stream={state.stream} isPaused={isPaused} />
+        <Canvas stream={stream} isPaused={isPaused} />
         <StyledCloseBtn onClick={navigateHome} />
       </MainScreen>
       <ButtonContainer
@@ -80,8 +86,8 @@ export const AudioRecorder: React.FC = () => {
         onPauseRecording={handlePauseResumeRecording}
         onStopRecording={handleStopRecording}
         onDownload={handleDownloadAudio}
-        recording={state.recording}
-        downloadDisabled={!state.audioURL}
+        recording={recording}
+        downloadDisabled={!audioURL}
         isPaused={isPaused}
       />
     </AudioRecorderContainer>

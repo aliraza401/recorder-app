@@ -15,6 +15,7 @@ export const MediaControllerContainer = styled.div`
 export const ControlIcon = styled.div`
   cursor: pointer;
   z-index: 1;
+  color: white;
 
   .pointer-disabled {
     cursor: not-allowed;

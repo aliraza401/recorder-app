@@ -32,25 +32,29 @@ export const ButtonContainer: React.FC<MediaControllerProps> = ({
   return (
     <MediaControllerContainer>
       {!recording || isPaused ? (
-        <ControlIcon>
-          <PlayCircleFilled onClick={handleStartOrResumeRecording} />
+        <ControlIcon onClick={handleStartOrResumeRecording}>
+          {/* <PlayCircleFilled  /> */}
+          Play
         </ControlIcon>
       ) : (
-        <ControlIcon>
-          <PauseCircleFilled onClick={onPauseRecording} />
+        <ControlIcon onClick={onPauseRecording}>
+          {/* <PauseCircleFilled  /> */}
+          Pause
         </ControlIcon>
       )}
       {recording && (
-        <ControlIcon>
-          <StopOutlined onClick={onStopRecording} />
+        <ControlIcon onClick={onStopRecording}>
+          {/* <StopOutlined  /> */}
+          Stop
         </ControlIcon>
       )}
       {!recording && (
-        <ControlIcon>
-          <DownloadOutlined
-            onClick={onDownload}
-            className={`${downloadDisabled ? "pointer-disabled" : ""}`}
-          />
+        <ControlIcon
+          onClick={onDownload}
+          className={`${downloadDisabled ? "pointer-disabled" : ""}`}
+        >
+          Download
+          {/* <DownloadOutlined /> */}
         </ControlIcon>
       )}
     </MediaControllerContainer>
