@@ -7,7 +7,7 @@ import {
 } from "./VideoRecorder.styled";
 
 import { useMediaContext } from "../../context/MediaContext";
-import { ButtonContainer } from "../../components/ButtonContainer/MediaController";
+import { ButtonContainer } from "../../components/MediaController/MediaController";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../utils/constants";
 import { downloadVideo } from "../../utils/downloader";
@@ -16,25 +16,34 @@ export const VideoRecorder: React.FC = () => {
   const { state, dispatch } = useMediaContext();
   const mediaRecorder = useRef<MediaRecorder | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
-
   const [isPaused, setIsPaused] = useState(false);
 
   const navigate = useNavigate();
 
   const handleStartRecording = async () => {
     if (!state.recording) {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
+      const stream = await navigator.mediaDevices
+        .getUserMedia({
+          video: true,
+          audio: true,
+        })
+        .catch((error) => {
+          console.error("Error getting user media:", error);
+          return null;
+        });
+      if (stream) {
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
+        mediaRecorder.current = new MediaRecorder(stream);
+        mediaRecorder.current.ondataavailable = (e) => {
+          const videoURL = URL.createObjectURL(e.data);
+          dispatch({ type: "SET_VIDEO_URL", payload: videoURL });
+        };
+        mediaRecorder.current.start();
+        dispatch({ type: "SET_STREAM", payload: stream });
+        dispatch({ type: "SET_RECORDING", payload: !state.recording });
       }
-      mediaRecorder.current = new MediaRecorder(stream);
-      mediaRecorder.current.ondataavailable = (e) => {
-        const videoURL = URL.createObjectURL(e.data);
-        dispatch({ type: "SET_VIDEO_URL", payload: videoURL });
-      };
-      mediaRecorder.current.start();
-      dispatch({ type: "SET_STREAM", payload: stream });
-      dispatch({ type: "SET_RECORDING", payload: !state.recording });
     }
   };
 
@@ -59,12 +68,11 @@ export const VideoRecorder: React.FC = () => {
     if (mediaRecorder.current && state.recording) {
       mediaRecorder.current.stop();
       const stream = mediaRecorder.current.stream;
+      if (isPaused) setIsPaused(false);
       stream.getTracks().forEach((track) => track.stop());
       dispatch({ type: "SET_STREAM", payload: null });
       dispatch({ type: "SET_RECORDING", payload: false });
-      if (videoRef.current) {
-        videoRef.current.load();
-      }
+      if (videoRef.current) videoRef.current.load();
     }
   };
 
@@ -77,11 +85,8 @@ export const VideoRecorder: React.FC = () => {
 
   useEffect(() => {
     return () => {
-      if (state.stream) {
-        state.stream.getTracks().forEach((track) => track.stop());
-        dispatch({ type: "SET_STREAM", payload: null });
-        dispatch({ type: "SET_RECORDING", payload: false });
-      }
+      dispatch({ type: "SET_STREAM", payload: null });
+      dispatch({ type: "SET_RECORDING", payload: false });
     };
   }, []);
 

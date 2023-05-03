@@ -5,7 +5,7 @@ import {
   MainScreen,
 } from "./AudioRecorder.styled";
 import { useMediaContext } from "../../context/MediaContext";
-import { ButtonContainer } from "../../components/ButtonContainer/MediaController";
+import { ButtonContainer } from "../../components/MediaController/MediaController";
 import { Canvas } from "../../components/Canvas/Canvas";
 import { StyledCloseBtn } from "../VideoRecorder/VideoRecorder.styled";
 import { useNavigate } from "react-router-dom";
@@ -50,6 +50,7 @@ export const AudioRecorder: React.FC = () => {
 
   const handleStopRecording = () => {
     if (mediaRecorder.current && recording) {
+      if (isPaused) setIsPaused(false);
       mediaRecorder.current.stop();
       stream?.getTracks().forEach((track) => track.stop());
       dispatch({ type: "SET_STREAM", payload: null });
@@ -59,11 +60,8 @@ export const AudioRecorder: React.FC = () => {
 
   useEffect(() => {
     return () => {
-      if (stream) {
-        stream.getTracks().forEach((track) => track.stop());
-        dispatch({ type: "SET_STREAM", payload: null });
-        dispatch({ type: "SET_RECORDING", payload: false });
-      }
+      dispatch({ type: "SET_STREAM", payload: null });
+      dispatch({ type: "SET_RECORDING", payload: false });
     };
   }, []);
 

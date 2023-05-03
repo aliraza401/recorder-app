@@ -36,15 +36,6 @@ export const Home: React.FC<HomeProps> = () => {
               </HomeButton>
             </Link>
           </Col>
-          {/* <Col span={24}>
-            <Link to={PATHS.SCREEN_RECORDER}>
-              <HomeButton>
-                <ButtonContent>
-                  <FundProjectionScreenOutlined /> Screen Recorder
-                </ButtonContent>
-              </HomeButton>
-            </Link>
-          </Col> */}
         </Row>
       </ButtonContainer>
     </HomeContainer>

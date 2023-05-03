@@ -34,7 +34,7 @@ export const ButtonContainer: React.FC<MediaControllerProps> = ({
       {!recording || isPaused ? (
         <ControlIcon onClick={handleStartOrResumeRecording}>
           {/* <PlayCircleFilled  /> */}
-          Play
+          {recording ? "Resume Recording" : "Record"}
         </ControlIcon>
       ) : (
         <ControlIcon onClick={onPauseRecording}>

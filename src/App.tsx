@@ -13,7 +13,6 @@ import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { PATHS } from "./utils/constants";
 import { MediaProvider } from "./context/MediaContext";
 import GlobalStyle from "./theme/globalStyle";
-import ScreenRecorder from "./pages/ScreenRecorder/ScreenRecorder";
 
 function App() {
   return (
@@ -26,10 +25,6 @@ function App() {
               <Route path={PATHS.HOME} element={<Home />} />
               <Route path={PATHS.AUDIO_RECORDER} element={<AudioRecorder />} />
               <Route path={PATHS.VIDEO_RECORDER} element={<VideoRecorder />} />
-              <Route
-                path={PATHS.SCREEN_RECORDER}
-                element={<ScreenRecorder />}
-              />
             </Routes>
           </BrowserRouter>
         </MediaProvider>
